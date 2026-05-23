@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Maintenance Agent, Ashmi Roy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F4F1EA; --bg2: #EAE6DC; --ink: #0D1F4E; --ink2: #3D4F7A; --ink3: #8A96B8;
+      --teal-lighter: #D7EBED; --teal-light: #53B0BC; --teal: #007E8F;
+      --teal-dark: #005864; --teal-darker: #073940;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --border: 1px solid rgba(13,31,78,0.12); --r: 8px;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 60px; background: rgba(244,241,234,0.92); backdrop-filter: blur(16px); border-bottom: var(--border); }
+    .nav-logo { font-family: var(--serif); font-size: 18px; color: var(--ink); text-decoration: none; }
+    .nav-back { font-size: 13px; color: var(--ink2); text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border: var(--border); border-radius: 100px; background: var(--bg2); transition: all 0.2s; }
+    .nav-back:hover { background: var(--ink); color: var(--bg); }
+
+    /* HERO */
+    .case-hero {
+      margin-top: 60px; background: var(--teal-darker);
+      min-height: 460px; display: flex; align-items: flex-end;
+      padding: 0 80px 64px; position: relative; overflow: hidden;
+    }
+    .case-hero::before { content: ''; position: absolute; top: -80px; right: -60px; width: 420px; height: 420px; border-radius: 50%; background: rgba(83,176,188,0.12); pointer-events: none; }
+    .case-hero::after { content: ''; position: absolute; bottom: -100px; right: 200px; width: 280px; height: 280px; border-radius: 50%; background: rgba(0,126,143,0.1); pointer-events: none; }
+    .hero-inner { position: relative; z-index: 1; max-width: 1100px; width: 100%; }
+    .case-eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 12px; }
+    .case-title { font-family: var(--serif); font-size: clamp(36px, 5vw, 64px); line-height: 1.08; letter-spacing: -0.025em; color: #fff; margin-bottom: 10px; }
+    .case-subtitle { font-size: 18px; color: rgba(255,255,255,0.6); margin-bottom: 24px; font-family: var(--serif); font-style: italic; }
+    .role-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(83,176,188,0.2); border: 1px solid rgba(83,176,188,0.35); border-radius: 100px; padding: 6px 16px; margin-bottom: 24px; }
+    .role-badge span { font-size: 12px; color: var(--teal-light); letter-spacing: 0.04em; }
+    .case-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .case-tag { font-size: 12px; padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
+
+    /* NDA NOTICE */
+    .nda-notice { background: rgba(0,88,100,0.08); border: 1px solid rgba(0,88,100,0.2); border-radius: var(--r); padding: 12px 20px; margin: 24px 80px 0; display: flex; align-items: center; gap: 10px; }
+    .nda-notice p { font-size: 12px; color: var(--teal-dark); line-height: 1.5; }
+    .nda-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+
+    /* BODY */
+    .case-body { max-width: 1000px; margin: 0 auto; padding: 72px 56px 100px; }
+    .case-section { margin-bottom: 72px; }
+    .case-section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink3); margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
+    .case-section-label::after { content: ''; flex: 1; height: 1px; background: rgba(13,31,78,0.08); }
+    .case-section h2 { font-family: var(--serif); font-size: clamp(26px, 3vw, 38px); line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .case-section p { font-size: 16px; color: var(--ink2); line-height: 1.85; margin-bottom: 16px; }
+    .case-section p:last-child { margin-bottom: 0; }
+    .highlight { color: var(--teal); font-style: italic; }
+
+    /* INTRO BLOCK */
+    .intro-block {
+      background: var(--teal-darker); border-radius: 16px;
+      padding: 40px 48px; margin-bottom: 72px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px;
+      position: relative; overflow: hidden;
+    }
+    .intro-block::before { content: ''; position: absolute; top: -60px; right: -60px; width: 260px; height: 260px; border-radius: 50%; background: rgba(83,176,188,0.1); pointer-events: none; }
+    .intro-col-label { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 10px; }
+    .intro-col-value { font-size: 15px; color: rgba(255,255,255,0.85); line-height: 1.65; }
+    .intro-col-value strong { color: #fff; font-weight: 500; }
+    .skip-btn { position: absolute; bottom: 36px; right: 48px; font-size: 13px; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; padding: 8px 20px; text-decoration: none; transition: all 0.2s; background: rgba(255,255,255,0.05); }
+    .skip-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    /* CALLOUT */
+    .callout { margin-top: 28px; background: var(--teal-lighter); border-left: 4px solid var(--teal); border-radius: 0 10px 10px 0; padding: 24px 28px; }
+    .callout-label { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+    .callout p { font-family: var(--serif); font-size: 20px; line-height: 1.55; color: var(--ink); margin-bottom: 0; }
+
+    /* PROCESS STEPS */
+    .process-steps { display: flex; flex-direction: column; gap: 3px; margin-top: 28px; }
+    .step { background: var(--bg2); border: var(--border); padding: 24px 28px; display: flex; gap: 24px; align-items: flex-start; border-radius: var(--r); transition: background 0.2s; }
+    .step:hover { background: #E0DCCF; }
+    .step-num { font-family: var(--serif); font-size: 26px; color: var(--teal-light); flex-shrink: 0; width: 32px; line-height: 1; margin-top: 2px; }
+    .step-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; font-weight: 500; }
+    .step h4 { font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 6px; }
+    .step p { font-size: 15px; color: var(--ink2); line-height: 1.75; margin-bottom: 0; }
+
+    /* THREE COL */
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 28px; }
+    .col-block { background: var(--bg2); border: var(--border); padding: 24px; border-radius: var(--r); }
+    .col-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; font-weight: 500; }
+    .col-block h4 { font-family: var(--serif); font-size: 18px; margin-bottom: 8px; color: var(--ink); }
+    .col-block p { font-size: 13px; color: var(--ink2); line-height: 1.7; margin-bottom: 0; }
+
+    /* USER TYPES */
+    .user-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 28px; }
+    .user-card { background: var(--bg2); border: var(--border); padding: 20px; border-radius: var(--r); text-align: center; }
+    .user-card.primary { background: var(--teal-lighter); border-color: rgba(0,126,143,0.2); }
+    .user-icon { font-size: 28px; margin-bottom: 8px; }
+    .user-card h4 { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .user-card p { font-size: 11px; color: var(--ink3); margin-bottom: 0; line-height: 1.4; }
+    .user-card.primary h4 { color: var(--teal-dark); }
+    .user-focus { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+
+    /* IMAGE BLOCK */
+    .image-block { margin-top: 24px; margin-bottom: 3px; border-radius: 12px; overflow: hidden; border: var(--border); background: var(--bg2); }
+    .image-block img { width: 100%; display: block; min-height: 80px; }
+    .image-caption { font-size: 12px; color: var(--ink3); padding: 12px 16px; background: var(--bg2); border-top: var(--border); line-height: 1.5; }
+
+    .video-block { margin-top: 28px; border-radius: 12px; overflow: hidden; border: var(--border); background: #000; }
+    .video-block video { width: 100%; display: block; max-height: 600px; }
+    .video-caption-block { background: var(--bg2); border-top: var(--border); padding: 16px 20px; }
+    .video-caption-title { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+    .video-block .image-caption { font-size: 13px; color: var(--ink2); line-height: 1.75; padding: 0; background: none; border: none; }
+
+    /* FEATURE CARDS */
+    .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; margin-bottom: 28px; }
+    .feature-card { border: var(--border); border-radius: 12px; overflow: hidden; background: var(--bg2); }
+    .feature-card img { width: 100%; display: block; }
+    .feature-body { padding: 20px 22px; }
+    .feature-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+    .feature-body h4 { font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+    .feature-body p { font-size: 13px; color: var(--ink2); line-height: 1.7; margin-bottom: 0; }
+    .placeholder-block { background: var(--teal-lighter); border: 2px dashed rgba(0,126,143,0.25); border-radius: 12px; min-height: 240px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; margin-top: 28px; }
+    .placeholder-block span { font-size: 22px; opacity: 0.4; }
+    .placeholder-block p { font-size: 13px; color: var(--teal-dark); opacity: 0.7; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .case-hero { padding: 0 24px 40px; min-height: 360px; }
+      .nda-notice { margin: 0 24px; }
+      .case-body { padding: 48px 24px 72px; }
+      .intro-block { grid-template-columns: 1fr; padding: 28px 24px 80px; }
+      .three-col, .user-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Ashmi Roy</a>
+    <a href="index.html" class="nav-back">← Back to work</a>
+  </nav>
+
+  <div class="case-hero">
+    <div class="hero-inner">
+      <p class="case-eyebrow">End-to-end UX · AI Product · January to May 2026</p>
+      <h1 class="case-title">AI Maintenance Agent</h1>
+      <p class="case-subtitle">Redesigning journey map maintenance for a CX platform</p>
+      <div class="role-badge"><span>UX Designer · Purdue UXD Experience Studio</span></div>
+      <div class="case-tags">
+        <span class="case-tag">AI</span>
+        <span class="case-tag">Figma</span>
+        <span class="case-tag">Usability Testing</span>
+        <span class="case-tag">Prototyping</span>
+        <span class="case-tag">Sponsor Meetings</span>
+        <span class="case-tag">Project Management</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="nda-notice">
+    <div class="nda-dot"></div>
+    <p>Confidential and proprietary details have been removed or anonymized to protect client information. Screens and research findings are presented at a high level only.</p>
+  </div>
+
+  <div class="case-body">
+
+    <!-- INTRO BLOCK -->
+    <div class="intro-block">
+      <div>
+        <div class="intro-col-label">Team</div>
+        <div class="intro-col-value">5 undergrad Purdue UX students</div>
+      </div>
+      <div>
+        <div class="intro-col-label">Duration</div>
+        <div class="intro-col-value">January to May 2026</div>
+      </div>
+      <div>
+        <div class="intro-col-label">Deliverables</div>
+        <div class="intro-col-value">High-fidelity Figma prototype, research document, user scenario vignettes</div>
+      </div>
+      <div>
+        <div class="intro-col-label">My contributions</div>
+        <div class="intro-col-value"><strong>Usability testing</strong> · Figma prototyping · Leading sponsor meetings</div>
+      </div>
+      <a href="#solution" class="skip-btn">Skip to solution →</a>
+    </div>
+
+    <!-- THE PROBLEM -->
+    <div class="case-section">
+      <div class="case-section-label">The problem</div>
+      <h2>Journey maps go stale. <span class="highlight">Nobody notices.</span></h2>
+      <p>Journey maps are living documents that need to evolve as customer experiences change, products update, and new data emerges. But on this platform, there was no system to alert users when their content became outdated. Personas aged out of date. Insights no longer reflected current metrics. Touchpoints drifted from reality.</p>
+      <p>Users relied on manual reviews and indirect signals to catch stale content, which led to inefficiency, disconnected data, and eroding trust in the maps themselves.</p>
+
+      <div class="callout">
+        <div class="callout-label">Problem statement</div>
+        <p>How might we help journey map owners identify and address outdated content, so their maps stay accurate, trustworthy, and actionable over time?</p>
+      </div>
+    </div>
+
+    <!-- CONTEXT -->
+    <div class="case-section">
+      <div class="case-section-label">Context</div>
+      <h2>Who are the <span class="highlight">users</span>?</h2>
+      <p>The client is a customer journey management platform that helps organizations understand their customers by building, analyzing, and maintaining journey maps. The platform already supported journey creation, analytics integration, and AI-assisted content generation — but maintaining those journeys over time was a gap.</p>
+
+      <div class="user-row">
+        <div class="user-card primary">
+          <div class="user-focus">Primary focus</div>
+          <div class="user-icon">👥</div>
+          <h4>CX Professionals</h4>
+          <p>Customer experience strategists and journey owners</p>
+        </div>
+        <div class="user-card">
+          <div class="user-icon">📋</div>
+          <h4>Product Managers</h4>
+          <p>Using journey maps to align product decisions</p>
+        </div>
+        <div class="user-card">
+          <div class="user-icon">💡</div>
+          <h4>Service Designers</h4>
+          <p>Mapping end-to-end service experiences</p>
+        </div>
+        <div class="user-card">
+          <div class="user-icon">🏢</div>
+          <h4>Enterprise Teams</h4>
+          <p>Organizations managing multiple journey maps</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROCESS -->
+    <div class="case-section">
+      <div class="case-section-label">My process</div>
+      <h2>What I worked on</h2>
+
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-label">Research · Phase 1</div>
+            <h4>Defining the opportunity space</h4>
+            <p>Contributed to desk research, competitive analysis, and user interviews to understand AI capabilities, current pain points, and how similar platforms handle content maintenance. This grounded our design decisions in real user needs.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-label">Competitive Analysis · Phase 1</div>
+            <h4>Heuristic evaluation of competitor products</h4>
+            <p>Conducted a heuristic evaluation against Nielsen's 10 usability heuristics on a competing platform, identifying UX violations, surfacing severity ratings, and generating design recommendations that informed our own direction.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="image-block">
+        <img src="heuristic_JT.png" alt="Heuristic analysis table showing violations, recommendations and severity ratings across Nielsen's 10 heuristics" />
+        <p class="image-caption">Heuristic evaluation identifying UX violations and severity ratings across Nielsen's 10 heuristics on a competitor product</p>
+      </div>
+
+      <div class="process-steps" style="margin-top: 3px;">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-label">User Research · Phase 1</div>
+            <h4>Generative user interviews</h4>
+            <p>Led 3 of 6 semi-structured interviews directly with real users of the platform. We explored their frustrations, what was working well for them, and where they saw room for opportunity. These conversations surfaced unmet needs that directly shaped our design direction in later phases.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-label">Design · Phase 2 and 3</div>
+            <h4>Figma prototyping and iteration</h4>
+            <p>Contributed to high-fidelity screen design across multiple rounds of iteration. Helped translate concept sketches and wireframes into polished, interactive Figma prototypes that communicated the AI maintenance agent experience clearly to sponsors and users.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div>
+            <div class="step-label">Testing · Phase 3</div>
+            <h4>Usability testing and synthesis</h4>
+            <p>Helped synthesize findings across 6 usability tests conducted on our redesigned prototype. Participants were given task-based questions to work through, and we analyzed their responses to identify friction points and iterate on the design.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div>
+            <div class="step-label">Stakeholder communication</div>
+            <h4>Leading sponsor meetings</h4>
+            <p>Led presentations directly to the client's CEO and VP of Product, communicating design decisions, research rationale, and prototype progress. Translated complex UX concepts into clear business value for non-design stakeholders.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOLUTION -->
+    <div class="case-section" id="solution">
+      <div class="case-section-label">The solution</div>
+      <h2>An <span class="highlight">agentic AI</span> maintenance agent</h2>
+      <p>The final design introduces two complementary AI capabilities. Together they reduce manual maintenance, improve visibility into outdated content, and keep users in control at every step.</p>
+
+      <div class="three-col">
+        <div class="col-block">
+          <div class="col-label">Proactive monitoring</div>
+          <h4>Always-on detection</h4>
+          <p>The agent continuously monitors journey maps, personas, and insights for signs of stale content, flagging changes before they compound into larger inaccuracies.</p>
+        </div>
+        <div class="col-block">
+          <div class="col-label">Transparent AI</div>
+          <h4>Evidence-backed suggestions</h4>
+          <p>Every recommendation is backed by a clear rationale, so users understand why something is flagged and can make informed decisions about whether to update it.</p>
+        </div>
+        <div class="col-block">
+          <div class="col-label">User control</div>
+          <h4>Approve, deny, or snooze</h4>
+          <p>Flexible controls keep users in charge. The agent assists but never overwrites, respecting user judgment while reducing the manual burden of maintenance.</p>
+        </div>
+      </div>
+
+      <div class="video-block" style="margin-top: 32px;">
+        <video controls playsinline preload="metadata">
+          <source src="JT_AISuggestionsSR.mp4" type="video/mp4" />
+        </video>
+        <div class="video-caption-block">
+          <div class="video-caption-title">AI Suggestions · Agentic · Proactive</div>
+          <p class="image-caption">User interviews surfaced a core frustration: <span style="color: var(--teal); font-weight: 500;">users had no way to know when content was outdated.</span> Our heuristic eval confirmed a lack of system feedback as a key violation. The solution: a proactive AI layer that monitors journey data and surfaces recommendations automatically, while giving users full control to <span style="color: var(--teal); font-weight: 500;">approve, deny, or snooze</span> every suggestion.</p>
+        </div>
+      </div>
+
+      <div class="video-block" style="margin-top: 12px;">
+        <video controls playsinline preload="metadata">
+          <source src="JT_AIAgentSR.mp4" type="video/mp4" />
+        </video>
+        <div class="video-caption-block">
+          <div class="video-caption-title">AI Intelligence Agent · Prompt AI · Reactive</div>
+          <p class="image-caption">Users told us they wanted to <span style="color: var(--teal); font-weight: 500;">ask questions about their journey and get direct answers</span> without digging through data. The Intelligence Agent is fully reactive and user-initiated, letting people engage with AI on their own terms through natural conversation linked to specific map elements.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

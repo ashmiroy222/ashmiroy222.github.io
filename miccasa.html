@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIC CASA — Ashmi Roy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F5F2EC; --bg2: #EDEAE2; --ink: #1A1814; --ink2: #6B6760; --ink3: #A09D99;
+      --accent: #2B4FD4; --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --border: 1px solid rgba(26,24,20,0.1); --r: 6px;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 56px; background: rgba(245,242,236,0.88); backdrop-filter: blur(12px); border-bottom: var(--border); }
+    .nav-logo { font-family: var(--serif); font-size: 17px; color: var(--ink); text-decoration: none; }
+    .nav-back { font-size: 13px; color: var(--ink2); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--ink); }
+    .case-hero { margin-top: 56px; background: #D8D0C4; height: 420px; display: flex; align-items: flex-end; padding: 0 72px 56px; }
+    .case-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(20,18,14,0.5); margin-bottom: 12px; }
+    .case-title { font-family: var(--serif); font-size: clamp(36px, 5vw, 64px); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px; }
+    .case-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .case-tag { font-size: 11px; padding: 4px 12px; border-radius: 100px; background: rgba(26,24,20,0.08); color: var(--ink2); border: 1px solid rgba(26,24,20,0.12); }
+    .case-body { max-width: 960px; margin: 0 auto; padding: 80px 72px 120px; }
+    .case-section { margin-bottom: 80px; }
+    .case-section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink3); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .case-section-label::after { content: ''; flex: 1; height: 1px; background: rgba(26,24,20,0.08); }
+    .case-section h2 { font-family: var(--serif); font-size: clamp(24px, 3vw, 36px); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .case-section p { font-size: 16px; color: var(--ink2); line-height: 1.85; margin-bottom: 16px; max-width: 680px; }
+    .placeholder-block { background: var(--bg2); border: 2px dashed rgba(26,24,20,0.12); border-radius: 12px; height: 280px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; color: var(--ink3); font-size: 13px; letter-spacing: 0.04em; margin-top: 32px; }
+    .placeholder-block span { font-size: 28px; opacity: 0.4; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 32px; }
+    .col-block { background: var(--bg2); border: var(--border); padding: 28px 24px; }
+    .col-block-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 12px; }
+    .col-block h4 { font-family: var(--serif); font-size: 20px; margin-bottom: 10px; }
+    .col-block p { font-size: 13px; color: var(--ink2); line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Ashmi Roy</a>
+    <a href="index.html" class="nav-back">← Back to work</a>
+  </nav>
+  <div class="case-hero">
+    <div>
+      <p class="case-eyebrow">Feature Design · Civic Tech · 2025</p>
+      <h1 class="case-title">MIC CASA</h1>
+      <div class="case-tags"><span class="case-tag">Civic Tech</span><span class="case-tag">High-fi Prototype</span><span class="case-tag">Scalable Design</span></div>
+    </div>
+  </div>
+  <div class="case-body">
+    <div class="case-section">
+      <div class="case-section-label">The question</div>
+      <h2>What problem were we solving?</h2>
+      <p>This section will describe the core design challenge, the users affected, and the context that made this problem worth solving. Add your framing here — what was broken, unclear, or missing?</p>
+      <p>Include any research context, client brief, or background that sets up why this project mattered.</p>
+      <div class="placeholder-block"><span>🖼</span>Add a cover image, diagram, or research context visual here</div>
+    </div>
+    <div class="case-section">
+      <div class="case-section-label">The design</div>
+      <h2>How did we approach it?</h2>
+      <p>Walk through your process here — research methods, key decisions, iterations, and what shaped the direction. What did you try? What did you learn? What changed along the way?</p>
+      <div class="three-col">
+        <div class="col-block"><div class="col-block-label">Discover</div><h4>Research</h4><p>User interviews, literature review, competitive analysis, or heuristic eval. What did you learn?</p></div>
+        <div class="col-block"><div class="col-block-label">Define</div><h4>Framing</h4><p>How you synthesized findings into a clear problem statement, personas, or design principles.</p></div>
+        <div class="col-block"><div class="col-block-label">Design</div><h4>Iteration</h4><p>Wireframes, prototypes, usability tests, and the decisions that got you to the final design.</p></div>
+      </div>
+      <div class="placeholder-block"><span>🎨</span>Add wireframes, process sketches, or Figma screens here</div>
+    </div>
+    <div class="case-section">
+      <div class="case-section-label">The solution</div>
+      <h2>What did we build?</h2>
+      <p>Describe the final outcome — what you designed, why it works, and how it addresses the original problem. Highlight key design decisions and their rationale.</p>
+      <p>Include impact metrics, user feedback, or outcomes if available. What changed as a result of this work?</p>
+      <div class="placeholder-block"><span>✨</span>Add final prototype screens, outcomes, or demo here</div>
+    </div>
+  </div>
+</body>
+</html>
